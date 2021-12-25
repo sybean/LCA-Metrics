@@ -1,0 +1,54 @@
+import selenium,time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+start_time = time.time()
+chrome_options = Options()
+
+chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--headless")
+##build the correct string: make a list called charnumber to store
+## character ids. charnames stores character names.
+charnumber = list(range(702,1403))
+charnames = []
+charnames_clean = []
+url = "https://www.lotcastingatemi.com/characters/"
+##append string for lotcastingatemi with appropriate charids
+##in...a loop???
+##probs
+##open a webdriver, wait 4 seconds
+driver1 = webdriver.Chrome(options=chrome_options)
+for number in charnumber:
+    driver1.get(url + str(number))
+    time.sleep(.25)
+    words = driver1.find_elements(By.CSS_SELECTOR, "h6")
+    charnames.append(words[0].text)
+    if number % 100 == 0:
+        print("We've checked " + str(len(charnames)) + " records in "+ str(time.time() - start_time) + ".")
+
+
+
+for charname in charnames: 
+    if charname != 'Lot-Casting Atemi':
+        charnames_clean.append(charname)
+
+print(charnames_clean)
+
+##print name of each character as they're read
+##charname = driver.find_elements(By.CSS_SELECTOR, 'p')
+
+
+##for element in words:
+##       print (element.text)
+##       print (element.tag_name)
+##       print (element.parent)
+##       print (element.location)
+##       print (element.size)
+
+
+
+##close driver
+driver1.close()
+
